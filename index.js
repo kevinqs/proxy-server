@@ -9,7 +9,7 @@ let scheme = 'http://'
 let port = argv.port || argv.host === '127.0.0.1' ?
 	8000 : 80	
 let destinationUrl = argv.url || scheme + argv.host + ':' + port
-let logStream = argv.logfile ? fs.createWriteStream(argv.logfile) : process.stdout
+let logStream = argv.serverlog ? fs.createWriteStream(argv.serverlog) : process.stdout
 
 http.createServer((req, res) => {
 	logStream.write('\nEcho request: \n' + JSON.stringify(req.headers))
@@ -39,3 +39,4 @@ http.createServer((req, res) => {
 	logStream.write(JSON.stringify(destinationResponse.headers))
 	destinationResponse.pipe(res)
 }).listen(8001)
+logStream.write('\nListening at http://127.0.0.1:8001')
